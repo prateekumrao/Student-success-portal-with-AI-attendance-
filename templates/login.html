@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+    <form method="post" class="card form">
+        <h2>
+            Student Login
+        </h2>
+        <input name="name" placeholder="Name (e.g. Rahul)" required>
+        <div class="pw">
+            <input id="pw" name="rollno" type="password" placeholder="Password = Roll No" required>
+            <span onclick="pw.type=pw.type=='password'?'text':'password'">
+                👁
+            </span>
+        </div>
+        <button class="btn">
+            Login
+        </button>
+    </form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+    Notes
+{% endblock %}
+{% block content %}
+    <h1>
+        📚 Notes
+    </h1>
+    <input id="q" placeholder="Search notes…" oninput="document.querySelectorAll('.note').forEach(n=>n.style.display=n.textContent.toLowerCase().includes(this.value.toLowerCase())?'':'none')">
+    <section class="grid3">
+        {% for f in files %}
+            <a class="card hover note" href="/notes/{{ f }}">
+                📄
+                {{ f }}
+                <p>
+                    Click to download
+                </p>
+            </a>
+        {% else %}
+            <p>
+                No notes yet. Put PDFs inside the
+                <code>
+                    notes/
+                </code>
+                folder.
+            </p>
+        {% endfor %}
+    </section>
+{% endblock %}

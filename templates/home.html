@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if session.roll and s %}
+        <h1>
+            Welcome back,
+            <span class="grad">
+                {{ session.name }}
+            </span>
+            👋
+            <small>
+                Roll
+                {{ session.roll }}
+            </small>
+        </h1>
+        <section class="grid3">
+            <div class="card">
+                <span class="ico">
+                    📈
+                </span>
+                <h2 class="count" data-n="{{ s.percent }}">
+                    0
+                </h2>
+                <p>
+                    Your attendance %
+                </p>
+            </div>
+            <div class="card {{ 'ok' if s.percent>=75 else 'bad' }}">
+                <span class="ico">
+                    {{ '✅' if s.percent>=75 else '⚠️' }}
+                </span>
+                <h2>
+                    {{ s.present }}
+                    /
+                    {{ s.total }}
+                </h2>
+                <p>
+                    Days present
+                </p>
+            </div>
+            <div class="card">
+                <span class="ico">
+                    🟢
+                </span>
+                <h2 class="count" data-n="{{ today_count }}">
+                    0
+                </h2>
+                <p>
+                    Present in class today
+                </p>
+            </div>
+        </section>
+        <section class="grid3">
+            <a class="card" href="/attendance">
+                <span class="ico">
+                    📊
+                </span>
+                <h3>
+                    Attendance
+                </h3>
+                <p>
+                    Chart & full history.
+                </p>
+            </a>
+            <a class="card" href="/predict">
+                <span class="ico">
+                    🤖
+                </span>
+                <h3>
+                    Pass / Fail
+                </h3>
+                <p>
+                    ML-powered prediction.
+                </p>
+            </a>
+            <a class="card" href="/notes">
+                <span class="ico">
+                    📚
+                </span>
+                <h3>
+                    Notes
+                </h3>
+                <p>
+                    Download study material.
+                </p>
+            </a>
+        </section>
+        <script>
+            document.querySelectorAll('.count').forEach(e=>{let n=+e.dataset.n,i=0,t=setInterval(()=>{i+=Math.max(.5,n/30);if(i>=n){i=n;clearInterval(t)}e.textContent=Math.round(i*10)/10},30)})
+        </script>
+    {% else %}
+        <section class="hero">
+            <div>
+                <h1>
+                    Attendance by
+                    <span>
+                        AI
+                    </span>
+                    .
+                    <br>
+                    Results you can
+                    <span>
+                        predict
+                    </span>
+                    .
+                </h1>
+                <p>
+                    Smart face-recognition attendance with a personal student portal. Login to continue.
+                </p>
+                <a class="btn" href="/login">
+                    Student Login →
+                </a>
+            </div>
+            <div class="scene">
+                <div class="cube">
+                    <div>
+                        🎓
+                    </div>
+                    <div>
+                        🤖
+                    </div>
+                    <div>
+                        📊
+                    </div>
+                    <div>
+                        📚
+                    </div>
+                    <div>
+                        ✅
+                    </div>
+                    <div>
+                        🧠
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Prediction
+{% endblock %}
+{% block content %}
+    <div class="card form">
+        <h2>
+            🤖 Pass / Fail Predictor
+        </h2>
+        <label>
+            Study hours/day:
+            <b id="v1">
+                4
+            </b>
+        </label>
+        <input type="range" id="study" min="0" max="12" step="0.5" value="4" oninput="v1.textContent=this.value">
+        <label>
+            Attendance %:
+            <b id="v2">
+                {{ att }}
+            </b>
+            (auto from AI attendance)
+        </label>
+        <input type="range" id="att" min="0" max="100" value="{{ att|round|int }}" oninput="v2.textContent=this.value">
+        <label>
+            Previous exam score:
+            <b id="v3">
+                60
+            </b>
+        </label>
+        <input type="range" id="score" min="0" max="100" value="60" oninput="v3.textContent=this.value">
+        <button class="btn" onclick="go()">
+            Predict
+        </button>
+        <div id="out" class="result">
+        </div>
+        <div class="bar">
+            <div id="fill">
+            </div>
+        </div>
+    </div>
+    <script>
+        async function go(){let r=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({study:study.value,attendance:att.value,score:score.value})});
+let d=await r.json();out.innerHTML=(d.result=='Pass'?'✅ Pass':'❌ Fail')+' — '+d.probability+'% pass chance';fill.style.width=d.probability+'%';fill.style.background=d.result=='Pass'?'#22c55e':'#ef4444'}
+    </script>
+{% endblock %}

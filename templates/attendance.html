@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}
+    Attendance
+{% endblock %}
+{% block content %}
+    <h1>
+        Hi,
+        {{ session.name }}
+        👋
+        <small>
+            Roll
+            {{ session.roll }}
+        </small>
+    </h1>
+    <section class="grid3">
+        <div class="card">
+            <h2>
+                {{ s.percent }}
+                %
+            </h2>
+            <p>
+                Attendance
+            </p>
+        </div>
+        <div class="card">
+            <h2>
+                {{ s.present }}
+                /
+                {{ s.total }}
+            </h2>
+            <p>
+                Days present
+            </p>
+        </div>
+        <div class="card {{ 'ok' if s.percent>=75 else 'bad' }}">
+            <h2>
+                {{ 'Safe ✅' if s.percent>=75 else 'Low ⚠️' }}
+            </h2>
+            <p>
+                75% rule
+            </p>
+        </div>
+    </section>
+    <section class="split">
+        <div class="card">
+            <canvas id="c">
+            </canvas>
+        </div>
+        <div class="card">
+            <input id="q" placeholder="Search date…" oninput="f()">
+            <table id="t">
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+                {% for r in s.records %}
+                    <tr>
+                        <td>
+                            {{ r['Date'] }}
+                        </td>
+                        <td>
+                            {{ r['Time'] }}
+                        </td>
+                        <td class="ok">
+                            {{ r['Status'] }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+    <script>
+        new Chart(c,{type:'doughnut',data:{labels:['Present','Absent'],datasets:[{data:[
+        {{ s.present }}
+        ,
+        {{ s.absent }}
+        ],backgroundColor:['#22c55e','#ef4444'],borderWidth:0}]},options:{cutout:'70%',plugins:{legend:{labels:{color:'#fff'}}}}});
+function f(){let v=q.value;document.querySelectorAll('#t tr:not(:first-child)').forEach(r=>r.style.display=r.textContent.includes(v)?'':'none')}
+    </script>
+{% endblock %}
